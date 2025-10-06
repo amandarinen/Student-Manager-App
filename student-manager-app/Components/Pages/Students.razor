@@ -7,29 +7,41 @@
 
 <p>List of students in this school.</p>
 
-@if (forecasts == null)
+@if (students == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+            
+<form method ="get">
+    <label for = "fname">First name: </label>
+    <input type = "text" id="fname" name="fname"/><br /><br />
+    <label for ="lname">Last name: </label>
+    <input type ="text" id="lname" name="lname" /><br /><br />
+    <label for = "fgrade">Grade: </label>
+    <input type= "number" id="fgrade" name="fgrade" /><br /><br />
+    <input type = "submit" value = "Submit"/>
+
+
+</form>
+        
     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Last Name</th>
                 <th>Grade</th>
-                <th>Class</th>
             </tr>
         </thead>
+
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var student in students)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@student.Name</td>
+                    <td>@student.LastName</td>
+                    <td>@student.Grade</td>
                 </tr>
             }
         </tbody>
@@ -37,7 +49,7 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private Student[]? students;
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,19 +58,18 @@ else
 
         var startDate = DateOnly.FromDateTime(DateTime.Now);
         var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        students = Enumerable.Range(1, 5).Select(index => new Student
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
+            Name = startDate.AddDays(index),
+            LastName = Random.Shared.Next(-20, 55)
         }).ToArray();
     }
 
-    private class WeatherForecast
+    private class Student
     {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public DateOnly Name { get; set; }
+        public int LastName { get; set; }
+
+        public int Grade => 32 + (int)(LastName / 0.5556);
     }
 }
