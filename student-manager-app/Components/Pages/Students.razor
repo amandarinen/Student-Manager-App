@@ -13,37 +13,33 @@
 }
 else
 {
-            
-<form method ="get">
-    <label for = "fname">First name: </label>
-    <input type = "text" id="fname" name="fname"/><br /><br />
-    <label for ="lname">Last name: </label>
-    <input type ="text" id="lname" name="lname" /><br /><br />
-    <label for = "fgrade">Grade: </label>
-    <input type= "number" id="fgrade" name="fgrade" /><br /><br />
-    <input type = "submit" value = "Submit"/>
+    <form>
+        <label for="fname">First name: </label>
+        <input type="text" id="fname" name="fname"/><br /><br />
+        <label for="lname">Last name: </label>
+        <input type="text" id="lname" name="lname"/><br /><br />
+        <label for="fgrade">Grade: </label>
+        <input type="number" id="fgrade" name="fgrade"/><br /><br />
+        <input type="submit" value="Submit"/>
+    </form>
 
-
-</form>
-        
     <table class="table">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Last Name</th>
-                <th>Grade</th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Grade</th>
+        </tr>
         </thead>
-
         <tbody>
-            @foreach (var student in students)
-            {
-                <tr>
-                    <td>@student.Name</td>
-                    <td>@student.LastName</td>
-                    <td>@student.Grade</td>
-                </tr>
-            }
+        @foreach (var student in students)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.LastName</td>
+                <td>@student.Grade</td>
+            </tr>
+        }
         </tbody>
     </table>
 }
@@ -53,23 +49,19 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        students = Enumerable.Range(1, 5).Select(index => new Student
+        students = new[]
         {
-            Name = startDate.AddDays(index),
-            LastName = Random.Shared.Next(-20, 55)
-        }).ToArray();
+            new Student { Name = "Anna", LastName = "Andersson", Grade = 5 },
+            new Student { Name = "Bertil", LastName = "Berg", Grade = 4 },
+            new Student { Name = "Cecilia", LastName = "Carlsson", Grade = 3 }
+        };
     }
 
     private class Student
     {
-        public DateOnly Name { get; set; }
-        public int LastName { get; set; }
-
-        public int Grade => 32 + (int)(LastName / 0.5556);
+        public string Name { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public int Grade { get; set; }
     }
 }
